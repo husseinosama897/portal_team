@@ -13,6 +13,7 @@ use App\Events\NotificationEvent;
 use App\Http\Controllers\employeeController;
 use App\Http\Controllers\matrial_requestController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\siteController;
 use App\Http\Controllers\userController;
 use App\Http\Middleware\laborer;
 /*
@@ -604,7 +605,7 @@ Route::middleware([laborer::class])->group(function () {
 
         Route::get('/user/createsiteinv', 'siteController@create')->name('user.createsiteinv');
 
-        Route::get('/user/index_site_inv', 'siteController@index')->name('user.index_site_inv');
+        Route::get('/user/index_site_inv', [siteController::class, 'index'])->name('user.index_site_inv');
 
         Route::get('/user/sitereturn/{site}', 'siteController@sitereturn')->name('user.sitereturn');
 

@@ -192,6 +192,7 @@ const Sidebar = ({ auth }) => {
                         <Menu.SubMenu
                             className="text-sm font-medium rounded-xl text-gray-700 !p-0"
                             title="Order"
+                            key="item-1"
                             icon={
                                 <svg
                                     width="24"
@@ -208,14 +209,19 @@ const Sidebar = ({ auth }) => {
                                 </svg>
                             }
                         >
-                            <Menu.Item className="!text-sm">
+                            <Menu.Item className="!text-sm" key="item-2">
                                 <Link href="/user/index_matrial_request">
                                     Matrial request
                                 </Link>
                             </Menu.Item>
-                            <Menu.Item className="!text-sm">
+                            <Menu.Item className="!text-sm" key="item-3">
                                 <Link href="/user/index_employee_inv">
                                     Employee request
+                                </Link>
+                            </Menu.Item>
+                            <Menu.Item className="!text-sm" key="item-4">
+                                <Link href="/user/index_site_inv">
+                                    Site request
                                 </Link>
                             </Menu.Item>
                         </Menu.SubMenu>

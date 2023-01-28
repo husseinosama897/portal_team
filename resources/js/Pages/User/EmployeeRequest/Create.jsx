@@ -13,7 +13,7 @@ const Create = (props) => {
     const [loan, setloan] = useState(false);
     const { data, setData, post, processing, errors, reset } = useForm({
         attributes: [],
-        content: '',
+        content: 'With reference to the above subject, ',
         date: "",
         files: [],
         project_id: "",
@@ -71,7 +71,7 @@ const Create = (props) => {
             <div className="space-y-2">
                 <div className="flex items-center justify-between">
                     <span className="text-lg text-gray-700 font-semibold">
-                        Create matrial request
+                        Create employee request
                     </span>
                 </div>
                 <div className="bg-white p-4 rounded-md space-y-3">
