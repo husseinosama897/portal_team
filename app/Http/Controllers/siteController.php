@@ -13,6 +13,7 @@ use App\Jobs\rolecc;
 use App\Jobs\sendcc;
 use Carbon\Carbon;
 use App\Events\NotificationEvent;
+use App\project;
 use Inertia\Inertia;
 
 class siteController extends Controller
@@ -166,11 +167,11 @@ class siteController extends Controller
 
     public function create()
     {
-
+        $projects = project::all();
         $data = site::latest()->first();
         $explode = explode("-", $data->ref ?? 'SI-' . '' . '0');
+        return Inertia::render('User/SiteRequest/Create', ['reference' => 'SI-' . '' . $explode[1] + 1, 'projects' => $projects]);
 
-        return view('site.create')->with(['ref' => 'SI-' . '' . $explode[1] + 1]);
     }
 
 

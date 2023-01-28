@@ -10,19 +10,15 @@ const Create = (props) => {
 
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [rowsOfTable, setRowsOfTable] = useState([]);
-    const [loan, setloan] = useState(false);
     const { data, setData, post, processing, errors, reset } = useForm({
         attributes: [],
         content: 'With reference to the above subject, ',
         date: "",
-        files: [],
         project_id: "",
-        ref: "",
+        ref: props.reference,
         subject: "",
         to: "",
         cc: "",
-        type: "",
-        loan_value: "",
     });
 
     const getUser = (cc = "") => {
@@ -79,10 +75,10 @@ const Create = (props) => {
                         <div>
                             <input
                                 type="text"
-                                className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                className="disabled:bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 value={data.ref}
                                 placeholder="Ref"
-                                onChange={(e) => setData("ref", e.target.value)}
+                                disabled
                                 required
                             />
                         </div>
@@ -135,36 +131,7 @@ const Create = (props) => {
                                 })}
                             </select>
                         </div>
-                        <div>
-                            <select
-                                id="types"
-                                className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                                defaultValue={0}
-                                onChange={(e) =>
-                                    setData("type", e.target.value)
-                                }
-                            >
-                                <option>Choose a type</option>
-                                <option value="1">End of service</option>
-                                <option value="2">annual vacation</option>
-                                <option value="3"> vacation</option>
-                                <option value="4"> transfer request</option>
-                            </select>
-                        </div>
-                        <div className="flex items-center">
-                            <Checkbox onChange={() => setloan(!loan)}>Loan</Checkbox>
-                            {loan ? (
-                                <input
-                                    type="text"
-                                    className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                    placeholder="Loan Value"
-                                    defaultValue={data.subject}
-                                    onChange={(e) =>
-                                        setData("loan_value", e.target.value)
-                                    }
-                                />
-                            ) : null}
-                        </div>
+
                         <div>
                             <input
                                 type="text"

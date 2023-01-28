@@ -70,7 +70,7 @@ const Index = (props) => {
                     <span className="text-lg text-gray-700 font-semibold">
                         Site request
                     </span>
-                    <Link href="/user/createemployeeinv">
+                    <Link href="/user/createsiteinv">
                         <Button type="primary">Create</Button>
                     </Link>
                 </div>
@@ -144,7 +144,7 @@ const Index = (props) => {
                             render: (_, record) => (
                                 <Space size="middle">
                                     <Link
-                                        href={`/user/employeereturn/${record.key}`}
+                                        href={`/user/sitereturn/${record.key}`}
                                         className="flex items-center text-green-500 hover:text-green-700"
                                     >
                                         <svg
@@ -166,7 +166,7 @@ const Index = (props) => {
                                         className="flex items-center text-red-500 hover:text-red-700"
                                         onClick={() =>
                                             showDeleteConfirm(
-                                                "/user/delete_employee_data/",
+                                                "/user/delete_site_data/",
                                                 record.key
                                             )
                                         }

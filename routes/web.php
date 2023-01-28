@@ -577,23 +577,12 @@ Route::middleware([laborer::class])->group(function () {
         //employee
 
         Route::post('/user/employeeinsrting', 'employeeController@insrting')->name('user.employeeinsrting');
-
         Route::get('/user/createemployeeinv', [employeeController::class, 'create'])->name('user.createemployeeinv');
-
         Route::get('/user/index_employee_inv', [employeeController::class, 'index'])->name('user.index_employee_inv');
-
         Route::get('/user/employeereturn/{employee}', 'employeeController@employeereturn')->name('user.employeereturn');
-
-
         Route::get('/user/preemployeereturn', 'employeeController@preemployeereturn')->name('user.preemployeereturn');
-
-
-
-
-
         Route::get('/user/returnemployeeasjson', 'employeeController@returnasjson')->name('user.returnasjson');
-
-        Route::post('/user/delete_employee_data/{employee}', 'employeeController@delete')->name('user.employeeadelete');
+        Route::post('/user/delete_employee_data/{employee}', [employeeController::class, 'delete'])->name('user.employeeadelete');
 
 
 
@@ -603,21 +592,17 @@ Route::middleware([laborer::class])->group(function () {
 
         Route::post('/user/siteinsrting', 'siteController@insrting')->name('user.siteinsrting');
 
-        Route::get('/user/createsiteinv', 'siteController@create')->name('user.createsiteinv');
+        Route::get('/user/createsiteinv', [siteController::class, 'create'])->name('user.createsiteinv');
 
         Route::get('/user/index_site_inv', [siteController::class, 'index'])->name('user.index_site_inv');
 
-        Route::get('/user/sitereturn/{site}', 'siteController@sitereturn')->name('user.sitereturn');
+        Route::get('/user/sitereturn/{site}', [siteController::class, 'sitereturn'])->name('user.sitereturn');
 
         Route::get('/user/returnsiteasjson', 'siteController@returnasjson')->name('user.sitereturnasjson');
 
         Route::get('/user/presitereturn', 'siteController@presitereturn')->name('user.presitereturn');
 
-
-
-
-
-        Route::post('/user/delete_site_data/{site}', 'siteController@delete')->name('user.siteadelete');
+        Route::post('/user/delete_site_data/{site}', [siteController::class, 'delete'])->name('user.siteadelete');
 
 
 
