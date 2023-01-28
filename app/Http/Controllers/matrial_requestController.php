@@ -285,14 +285,17 @@ class matrial_requestController extends Controller
     public function edit($matrial_request)
     {
         if (is_numeric($matrial_request)) {
-
+            $projects = project::all();
             $data = matrial_request::where('id', $matrial_request)->with(['matrial_request_cycle' => function ($q) {
                 return  $q->with(['comment_matrial_cycle' => function ($qu) {
                     return $qu->with('attachment_matrial_cycle');
                 }])->with('role');
             }])->with('attributes')->with('files')->with('note')->first();
             if (!empty($data)) {
-                return view('matrial_request.update')->with(['data' => $data]);
+                return Inertia::render('User/MatrialRequest/Edit', [
+                    'data' => $data,
+                    'projects' => $projects
+                ]);
             }
         }
     }

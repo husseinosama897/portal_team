@@ -139,7 +139,7 @@ const Index = (props) => {
                             key: "action",
                             render: (_, record) => (
                                 <Space size="middle">
-                                    <Link className="flex items-center text-blue-500 hover:text-blue-700">
+                                    <Link href={`/user/matrial_request/edit/${record.key}`} className="flex items-center text-blue-500 hover:text-blue-700">
                                         <svg
                                             className="w-4 h-4 mr-1 rtl:ml-1"
                                             xmlns="http://www.w3.org/2000/svg"

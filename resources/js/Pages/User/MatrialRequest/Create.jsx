@@ -15,9 +15,14 @@ const Create = (props) => {
     const [rowsOfTable, setRowsOfTable] = useState([]);
 
     const { data, setData, post, processing, errors, reset } = useForm({
-        email: "",
-        password: "",
-        remember: "",
+        attributes: [],
+        content: [],
+        date: [],
+        files: [],
+        project_id: "",
+        ref: "",
+        subject: "",
+        to: "",
         cc: "",
     });
 
@@ -64,7 +69,7 @@ const Create = (props) => {
         setSelectedUsers((prev) => {
             return prev.filter((user, index) => user.id !== id);
         });
-    }
+    };
 
     const addItem = () => {
         setItems((prev) => {
@@ -303,15 +308,18 @@ const Create = (props) => {
                             Add
                         </Button>
                     </div>
-                    <div className="grid grid-cols-4 gap-3">
+                    <div className="grid grid-cols-6 gap-3">
                         {items.map((item, index) => {
                             return (
                                 <>
-                                    <div>
+                                    <div className="col-span-3 flex items-center gap-3">
+                                        <div>
+                                            <span className="p-2 block rounded-lg whitespace-nowrap">{index + 1} - </span>
+                                        </div>
                                         <textarea
                                             name="description"
                                             rows="1"
-                                            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                                            className="block p-2.5 w-full text-sm text-gray-900 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                                             value={item.description}
                                             placeholder="Item description..."
                                             onChange={(e) => editItem(e, index)}
@@ -343,7 +351,7 @@ const Create = (props) => {
                                         <Button
                                             type="primary"
                                             danger
-                                            className="!h-full !px-4 "
+                                            className=" !px-4 "
                                             onClick={() => deleteItem(index)}
                                         >
                                             Delete

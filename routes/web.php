@@ -651,7 +651,7 @@ Route::middleware([laborer::class])->group(function () {
         Route::post('/user/matrial_request/update/{matrial_request}', [matrial_requestController::class, 'action'])->name('user.matrialaction');
 
 
-        Route::get('/user/matrial_request/edit/{matrial_request}', 'matrial_requestController@edit')->name('user.matrial_requestedit');
+        Route::get('/user/matrial_request/edit/{matrial_request}', [matrial_requestController::class, 'edit'])->name('user.matrial_requestedit');
 
 
         Route::post('/user/matrial_request_insrting', 'matrial_requestController@insarting')->name('user.matrialinsrting');
