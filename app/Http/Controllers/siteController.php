@@ -13,6 +13,7 @@ use App\Jobs\rolecc;
 use App\Jobs\sendcc;
 use Carbon\Carbon;
 use App\Events\NotificationEvent;
+use Inertia\Inertia;
 
 class siteController extends Controller
 {
@@ -157,11 +158,10 @@ class siteController extends Controller
             return    $q->with('role');
         }])->orderBy('created_at', 'DESC')->paginate(10);
 
-        return Inertia::render('User/EmployeeRequest/Index', [
+        return Inertia::render('User/SiteRequest/Index', [
             'data' => $site,
             'workflow' => $site_requestworkflow
         ]);
-        return view('site.index');
     }
 
     public function create()
