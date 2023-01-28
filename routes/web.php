@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use App\Jobs\qremail;
 use Illuminate\Support\Str;
 use App\Events\NotificationEvent;
+use App\Http\Controllers\employeeController;
 use App\Http\Controllers\matrial_requestController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\userController;
@@ -576,9 +577,9 @@ Route::middleware([laborer::class])->group(function () {
 
         Route::post('/user/employeeinsrting', 'employeeController@insrting')->name('user.employeeinsrting');
 
-        Route::get('/user/createemployeeinv', 'employeeController@create')->name('user.createemployeeinv');
+        Route::get('/user/createemployeeinv', [employeeController::class, 'create'])->name('user.createemployeeinv');
 
-        Route::get('/user/index_employee_inv', 'employeeController@index')->name('user.index_employee_inv');
+        Route::get('/user/index_employee_inv', [employeeController::class, 'index'])->name('user.index_employee_inv');
 
         Route::get('/user/employeereturn/{employee}', 'employeeController@employeereturn')->name('user.employeereturn');
 

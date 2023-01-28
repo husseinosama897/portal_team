@@ -2,7 +2,20 @@
 
 namespace App\Models;
 
+use App\contract_withsubcontractor;
+use App\employee;
 use App\matrial_request;
+use App\notification;
+use App\petty_cash;
+use App\project;
+use App\Purchase_order;
+use App\rfq;
+use App\role;
+use App\salary;
+use App\site;
+use App\subcontractor;
+use App\supplier;
+use App\task;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;

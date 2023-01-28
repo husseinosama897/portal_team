@@ -214,7 +214,7 @@ const Sidebar = ({ auth }) => {
                                 </Link>
                             </Menu.Item>
                             <Menu.Item className="!text-sm">
-                                <Link href="/user/index_matrial_request">
+                                <Link href="/user/index_employee_inv">
                                     Employee request
                                 </Link>
                             </Menu.Item>
