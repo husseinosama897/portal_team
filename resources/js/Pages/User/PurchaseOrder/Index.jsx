@@ -14,9 +14,13 @@ const Index = (props) => {
     const [rows, setRows] = useState([]);
     const onChange = (e) => {
         const url =
-            route().t.url + "/" + route().t.routes[route().current()].uri+"?page="+e;
+            route().t.url +
+            "/" +
+            route().t.routes[route().current()].uri +
+            "?page=" +
+            e;
 
-            router.get(url)
+        router.get(url);
     };
     const handleCancel = () => {
         setIsModalOpen(false);
@@ -37,10 +41,11 @@ const Index = (props) => {
                         key: item.id,
                         code: item.ref,
                         date: item.date,
-                        description: item.content,
+                        description: item.subject,
+                        vat: item.vat,
+                        total: item.total,
                         status: item.status,
-                        project: item.project_id,
-                        cylce: item.matrial_request_cycle,
+                        cylce: item.purchase_order_cycle,
                     },
                 ];
             });
@@ -73,9 +78,9 @@ const Index = (props) => {
             <div className="space-y-3">
                 <div className="flex items-center justify-between">
                     <span className="text-lg text-gray-700 font-semibold">
-                        Matrial request
+                        Purchase Order
                     </span>
-                    <Link href="/user/create_matrial_request">
+                    <Link href="/user/createpurchaseorder">
                         <Button type="primary">Create</Button>
                     </Link>
                 </div>
@@ -138,9 +143,14 @@ const Index = (props) => {
                             ),
                         },
                         {
-                            title: "Project",
-                            dataIndex: "project",
-                            key: "project",
+                            title: "Vat",
+                            dataIndex: "vat",
+                            key: "vat",
+                        },
+                        {
+                            title: "Total",
+                            dataIndex: "total",
+                            key: "total",
                         },
                         {
                             title: "Action",
@@ -148,7 +158,10 @@ const Index = (props) => {
                             key: "action",
                             render: (_, record) => (
                                 <Space size="middle">
-                                    <Link href={`/user/matrial_request/edit/${record.key}`} className="flex items-center text-blue-500 hover:text-blue-700">
+                                    <Link
+                                        href={`/user/matrial_request/edit/${record.key}`}
+                                        className="flex items-center text-blue-500 hover:text-blue-700"
+                                    >
                                         <svg
                                             className="w-4 h-4 mr-1 rtl:ml-1"
                                             xmlns="http://www.w3.org/2000/svg"

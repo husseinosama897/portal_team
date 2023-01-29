@@ -8,7 +8,7 @@ import { showDeleteConfirm } from "@/Components/ModalDelete";
 const Index = (props) => {
     const { Step } = Steps;
     const [cylce, setCylce] = useState([]);
-    const [status, setStatus] = useState(0);
+    const [status, setStatus] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const [rows, setRows] = useState([]);
@@ -51,15 +51,24 @@ const Index = (props) => {
         });
     }, []);
     useEffect(() => {
+        setStatus([]);
         cylce?.map((step) => {
             if (step.status == 0) {
-                setStatus("process");
+                setStatus((prev) => {
+                    return [...prev, "process"];
+                });
             } else if (step.status == 1) {
-                setStatus("finish");
+                setStatus((prev) => {
+                    return [...prev, "finish"];
+                });
             } else if (step.status == 2) {
-                setStatus("error");
+                setStatus((prev) => {
+                    return [...prev, "error"];
+                });
             } else if (step.status == 3) {
-                setStatus("wait");
+                setStatus((prev) => {
+                    return [...prev, "wait"];
+                });
             }
         });
     }, [cylce]);
@@ -208,13 +217,11 @@ const Index = (props) => {
                     onCancel={handleCancel}
                     width={1024}
                 >
-                    <Steps
-                        current={cylce.length > 0 ? cylce.length - 1 : ""}
-                        status={status}
-                    >
-                        {props.workflow.flowwork_step.map((step) => {
+                    <Steps current={cylce.length > 0 ? cylce.length - 1 : ""}>
+                        {props.workflow.flowwork_step.map((step, index) => {
                             return (
                                 <Step
+                                    status={status[index]}
                                     title={step.role.name}
                                     key={`items-${step.id}`}
                                 />

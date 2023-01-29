@@ -24,6 +24,9 @@ use App\payment_term as note;
 use App\product;
 use App\Events\NotificationEvent;
 use App\Jobs\update_pervious_value;
+use App\project;
+use App\supplier;
+use Inertia\Inertia;
 
 class purchaseController extends Controller
 {
@@ -50,10 +53,16 @@ class purchaseController extends Controller
     public function createpurchaseorder()
     {
         // if(auth()->user()->role()->permission->where('name','create po')->first()){
-
+        $suppliers = supplier::get()->chunk(10);
         $data = Purchase_order::latest()->first();
         $explode = explode("-", $data->ref);
-        return view('purchase.create')->with(['ref' => 'PO-' . '' . $explode[1] + 1]);
+        $projects = project::all();
+        return Inertia::render('User/PurchaseOrder/Create', [
+            'reference' => 'PO-' . '' . $explode[1] + 1,
+            'suppliers' => $suppliers,
+            'projects' => $projects
+        ]);
+        return view('purchase.create')->with(['reference' => 'PO-' . '' . $explode[1] + 1, 'suppliers' => $suppliers]);
 
 
         // }
@@ -300,17 +309,17 @@ class purchaseController extends Controller
                 }
 
                 /*
-$account_sid = env('TWILIO_SID');
-$account_token = env('TWILIO_TOKEN');
-$number = env('TWILIO_FROM');
+            $account_sid = env('TWILIO_SID');
+            $account_token = env('TWILIO_TOKEN');
+            $number = env('TWILIO_FROM');
 
-$client = new Client($account_sid,$account_token);
-$client->messages->create('+966583850200',[
-    'title'=>'hussein',
-    'from'=>$number,
-    'body'=>$content,
-]);
-*/
+            $client = new Client($account_sid,$account_token);
+            $client->messages->create('+966583850200',[
+                'title'=>'hussein',
+                'from'=>$number,
+                'body'=>$content,
+            ]);
+            */
 
                 purchase_order_cycle::create([
                     'step' => 1,
@@ -613,8 +622,13 @@ $client->messages->create('+966583850200',[
         $purchase_orderworkflow =    workflow::where('name', 'purchase_order')->with(['flowworkStep' => function ($q) {
             return     $q->with('role');
         }])->first();
-
-        return view('purchase.index')->with(['workflow' => $purchase_orderworkflow]);
+        $purchase = auth()->user()->purchase()->with(['purchase_order_cycle' => function ($q) {
+            return $q->with('role');
+        }])->paginate(10);
+        return Inertia::render('User/PurchaseOrder/Index', [
+            'data' => $purchase,
+            'workflow' => $purchase_orderworkflow
+        ]);
     }
 
     public function returnasjson()

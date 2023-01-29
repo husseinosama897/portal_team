@@ -12,8 +12,12 @@ use Illuminate\Support\Str;
 use App\Events\NotificationEvent;
 use App\Http\Controllers\employeeController;
 use App\Http\Controllers\matrial_requestController;
+use App\Http\Controllers\petty_cashController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\purchaseController;
+use App\Http\Controllers\rfqController;
 use App\Http\Controllers\siteController;
+use App\Http\Controllers\supplierController;
 use App\Http\Controllers\userController;
 use App\Http\Middleware\laborer;
 /*
@@ -485,7 +489,7 @@ Route::middleware([laborer::class])->group(function () {
 
     Route::group(['middleware' => ['auth' => 'user']], function () {
         Route::get('/home', 'HomeController@index')->name('home');
-        Route::get('/user/createpurchaseorder', 'purchaseController@createpurchaseorder')->name('user.purchase');
+        Route::get('/user/createpurchaseorder', [purchaseController::class, 'createpurchaseorder'])->name('user.purchase');
         Route::post('/user/insarting_data', 'purchaseController@insarting_data')->name('user.insarting_data');
 
         Route::post('/user/delete_data/{Purchase_order}', 'purchaseController@delete')->name('user.delete_data');
@@ -493,7 +497,7 @@ Route::middleware([laborer::class])->group(function () {
         Route::get('/user/prepurchasereturn', 'purchaseController@prepurchasereturn')->name('user.prepurchasereturn');
 
 
-        Route::get('/user/purchase_table', 'purchaseController@index')->name('user.purchase_tablez');
+        Route::get('/user/purchase_table', [purchaseController::class, 'index'])->name('user.purchase_tablez');
 
 
 
@@ -556,9 +560,9 @@ Route::middleware([laborer::class])->group(function () {
 
         Route::post('/user/frqinsrting', 'rfqController@insrting')->name('user.frqinsrting');
 
-        Route::get('/user/createfrqinv', 'rfqController@create')->name('user.createfrqinv');
+        Route::get('/user/createfrqinv', [rfqController::class, 'create'])->name('user.createfrqinv');
 
-        Route::get('/user/index_frq_inv', 'rfqController@index')->name('user.index_frq_inv');
+        Route::get('/user/index_frq_inv', [rfqController::class, 'index'])->name('user.index_frq_inv');
 
         Route::get('/user/frqreturn/{rfq}', 'rfqController@frqreturn')->name('user.frqreturn');
 
@@ -611,9 +615,9 @@ Route::middleware([laborer::class])->group(function () {
 
         Route::post('/user/petty_cashinsrting', 'petty_cashController@insrting')->name('user.pettyinsrting');
 
-        Route::get('/user/create_petty_cash', 'petty_cashController@create')->name('user.create_petty_cash');
+        Route::get('/user/create_petty_cash', [petty_cashController::class, 'create'])->name('user.create_petty_cash');
 
-        Route::get('/user/index_petty_cash', 'petty_cashController@index')->name('user.index_petty_cash');
+        Route::get('/user/index_petty_cash', [petty_cashController::class, 'index'])->name('user.index_petty_cash');
 
         Route::get('/user/petty_cashreturn/{petty_cash}', 'petty_cashController@petty_cashreturn')->name('user.petty_cashreturn');
 
@@ -637,9 +641,7 @@ Route::middleware([laborer::class])->group(function () {
         /// matrial_request
         Route::post('/user/matrial_request/update/{matrial_request}', [matrial_requestController::class, 'action'])->name('user.matrialaction');
 
-
         Route::get('/user/matrial_request/edit/{matrial_request}', [matrial_requestController::class, 'edit'])->name('user.matrial_requestedit');
-
 
         Route::post('/user/matrial_request_insrting', 'matrial_requestController@insarting')->name('user.matrialinsrting');
 
@@ -1332,7 +1334,7 @@ Route::middleware([laborer::class])->group(function () {
 
         Route::post('/getselectboxsupp', 'supplierController@getselectboxsupp')->name('getselectboxsupp');
         Route::get('/createsupplier', 'supplierController@createpage')->name('createpage');
-        Route::get('/supplierselex', 'supplierController@supplierselex')->name('supplierselex');
+        Route::get('/supplierselex', [supplierController::class, 'supplierselex'])->name('supplierselex');
         Route::get('/suppilercount', 'supplierController@suppilercount')->name('suppilercount');
 
         Route::post('/createsupp', 'supplierController@createsupp')->name('createsupp');
