@@ -292,6 +292,10 @@ class petty_cashController extends Controller
 
             DB::transaction(function () use ($request, $data) {
 
+                $data = petty_cash::latest()->first();
+                $explode = explode("-",$data->ref ?? 'R-'.''.'0');
+
+                
                 $subcon = petty_cash::create([
                     'project_id' => $request->project_id,
 
@@ -302,7 +306,7 @@ class petty_cashController extends Controller
                     'expected_amount' => ($request->total + $request->vat),
 
                     'vat' => $request->vat,
-                    'ref' => $request->ref,
+                    'ref' => 'PC-'.''.$explode[1] + 1,
                     'date' => $request->date,
                     'content' => $request->content,
                     'subject' => $request->subject,
