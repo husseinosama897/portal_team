@@ -81,7 +81,8 @@ class purchaseController extends Controller
             'delivery_date' => ['required', 'date', 'max:255'],
             'cc' => ['string', 'max:255'],
             'ref' => ['string', 'max:255'],
-
+'percentage_discount'=>['numeric'],
+'discount'=>['numeric'],
             'supplier_id' => ['required', 'numeric'],
 
         ]);
@@ -91,6 +92,11 @@ class purchaseController extends Controller
             DB::transaction(function () use ($request, $data) {
                 $cash = $request->cash == true ? 1 : 0;
                 $on_vat = $request->no_vat == true ? 1 : 0;
+
+                $data = Purchase_order::latest()->first();
+                $explode = explode("-",$data->ref ?? 'R-'.''.'0');
+
+         
                 $Purchase_order = Purchase_order::create([
 
                     'project_id' => $request['project_id'],
@@ -109,7 +115,7 @@ class purchaseController extends Controller
                     'percentage_discount' => $request->percentage_discount,
                     'discount' => $request->discount,
                     'subtotal' => $request->total,
-                    'ref' => $request->ref,
+                    'ref' =>'PO-'.''.$explode[1] + 1,
                     'supplier_id' => $request->supplier_id,
 
                     'order_for' => $request->order_for,
