@@ -321,7 +321,8 @@ $number = $check->project->contract()->count(); # this test  number of workers
 $User_overall = project_overall::where(['date'=>Carbon::now()->startOfMonth(),'project_id'=>$check->project->id])->first();
 
 $numbers_util_now = $number  * $working_days;
-$increment = 1  / $numbers_util_now * 100;
+$numbers_util_now =$numbers_util_now > 0 ? $numbers_util_now  : 1 * 100;
+$increment = 1  / $numbers_util_now ;
 
   if($User_overall){
     $User_overall->increment('num_of_attendance',1);
@@ -419,7 +420,8 @@ if(!empty($get->role) && !empty($get->role->section) ){
 
 
 $numbers_util_now = $number  * $working_days;
-$increment = 1  / $numbers_util_now * 100;
+$numbers_util_now =$numbers_util_now > 0 ? $numbers_util_now  : 1 * 100;
+$increment = 1  / $numbers_util_now;
 
 
     $monthly_section =     monthly_section::where(['section_id'=>$get->role->section_id,'date'=>Carbon::now()->startOfMonth(),])->first();
@@ -552,8 +554,9 @@ if(!empty($get->role) ){
     
 
   $timesheet_monthly_personal =     personal_overall::where(['user_id'=>$get->id,'date'=>Carbon::now()->startOfMonth(),])->first();
-  $numbers_util_now = 1  * $working_days;
-$increment = 1  / $numbers_util_now * 100;
+  $numbers_util_now =   1  * $working_days  ;
+  $numbers_util_now =$numbers_util_now > 0 ? $numbers_util_now  : 1 * 100;
+  $increment = 1  / $numbers_util_now ;
 
   if($timesheet_monthly_personal){
     $timesheet_monthly_personal->increment(
