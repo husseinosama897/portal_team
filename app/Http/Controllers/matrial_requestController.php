@@ -22,7 +22,7 @@ use App\Events\NotificationEvent;
 use App\project;
 use Exception;
 use Inertia\Inertia;
-
+use App\summaryreport;
 class matrial_requestController extends Controller
 {
 
@@ -88,6 +88,11 @@ class matrial_requestController extends Controller
                 ]);
 
 
+                $summaryreport=  summaryreport::first();
+                $summaryreport =  $summaryreport->matrial_bending !== null ?  $summaryreport->incerment('matrial_bending',1)
+                : $summaryreport->update([
+                    'matrial_bending'=>1
+                ]);
 
                 $rules = [
 

@@ -27,7 +27,7 @@ use App\Jobs\update_pervious_value;
 use App\project;
 use App\supplier;
 use Inertia\Inertia;
-
+use App\summaryreport;
 class purchaseController extends Controller
 {
 
@@ -123,8 +123,11 @@ class purchaseController extends Controller
 
 
 
-
-
+                  $summaryreport=  summaryreport::first();
+$summaryreport =  $summaryreport->purchase_order_bending !== null ?  $summaryreport->incerment('purchase_order_bending',1)
+: $summaryreport->update([
+    'purchase_order_bending'=>1
+]);
                 $attributes = json_decode($request->attr, true);
                 $payment = json_decode($request->payment, true);
                 $users = json_decode($request->users, true);

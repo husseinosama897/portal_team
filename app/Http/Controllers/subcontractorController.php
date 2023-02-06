@@ -17,7 +17,7 @@ use App\Jobs\sendcc;
 
 use App\Exceptions\CustomException;
 use App\Events\NotificationEvent;
-
+use App\summaryreport;
 class subcontractorController extends Controller
 {
 
@@ -339,7 +339,11 @@ $data =  $this->validate($request,[
 
     ]);
 
- 
+    $summaryreport=  summaryreport::first();
+    $summaryreport =  $summaryreport->subcontractor_invoice_bending !== null ?  $summaryreport->incerment('subcontractor_invoice_bending',1)
+    : $summaryreport->update([
+        'subcontractor_invoice_bending'=>1
+    ]);
     
 
     $rules = [

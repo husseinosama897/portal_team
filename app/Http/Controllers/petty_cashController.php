@@ -20,7 +20,7 @@ use App\Exceptions\CustomException;
 use App\Events\NotificationEvent;
 use App\project;
 use Inertia\Inertia;
-
+use App\summaryreport;
 class petty_cashController extends Controller
 {
     public function __construct()
@@ -319,6 +319,14 @@ class petty_cashController extends Controller
             $subcon->cost_center->save();
          }
             */
+
+
+            $summaryreport=  summaryreport::first();
+            $summaryreport =  $summaryreport->petty_cash_bending !== null ?  $summaryreport->incerment('petty_cash_bending',1)
+            : $summaryreport->update([
+                'petty_cash_bending'=>1
+            ]);
+
 
                 if ($request->count > 0) {
                     for ($counter = 0; $counter <= $request->count; $counter++) {
