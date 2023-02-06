@@ -75,56 +75,25 @@ $User = $User->withCount(['Attending_and_leaving as Absence'=> function ($query)
   
   public function jsonlaborer(request $request)
   {
+   
     $data = User::query();
-    $data = $data->WhereHas('contract',function($q){
+    $data = $data->select(['id','name','role_id']);
+    $data = $data->WhereHas('contract',function($q)use($request){
 
+      if($request->project_id){
+        $q->where('project_id',$request->project_id);
+      }
       
       });
 
     $data = $data->with(['contract'=>function($q){
-return $q->with('project');
+
+return $q->with(['project'=>function($q){
+$q->select(['id','name']);
+}]);
     }])->with('role');
     
-  if($request->project_id){
-    $data=  $data->withSum(
-      ['timesheet_project_personal' => function($q) use($request){
-
-
-        if($request->project_id){
-          $q->where('project_id',$request->project_id);
-        }
-
-
-   
-        $from ='';
-        $to ='';
-      if($request->from){
-        $from = date('m', strtotime($request->from));
-      }
-      if($request->to){
-        $to = date('m', strtotime($request->to));
-      }
-       
-      
-        if($from){
-            $q->whereMonth('date','>=',$from);
-        }
-      
-        if($to){
-          $q->whereMonth('date','<=',$to);
-      }
-      
-   
-            return $q;   
-            
-
-    }],
-    'time'
-  )
-
-;
-
-  }else{
+  
 $data = $data->whereHas('personal_overall',function($q)use( $request){
   
   $from ='';
@@ -225,7 +194,7 @@ $data=  $data->withSum(
 )
 
 ;
-  }
+  
         $data = $data->withCount(['Attending_and_leaving as Absence'=> function ($query) {
       return $query->where('absence','!=',null);
      }]);
@@ -264,7 +233,7 @@ foreach($daterange as $date){
 }
 
 
-  $data =   $data->paginate(10);
+  $data =   $data->paginate(100);
   
     return response()->json(['data'=>$data,'weekends'=>$weekends]);
   }

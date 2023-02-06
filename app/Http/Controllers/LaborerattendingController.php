@@ -110,7 +110,7 @@ $attendance = [];
 
   foreach($attendance as $chunk){
   
-    $job = (new hearing_process_attendance($attendance))->delay(Carbon::now()->addSeconds(90));
+    $job = (new hearing_process_attendance($attendance))->delay(Carbon::now()->addSeconds(54000));
 
     $this->dispatch($job);
 
@@ -321,11 +321,10 @@ $number = $check->project->contract()->count(); # this test  number of workers
 $User_overall = project_overall::where(['date'=>Carbon::now()->startOfMonth(),'project_id'=>$check->project->id])->first();
 
 $numbers_util_now = $number  * $working_days;
-$numbers_util_now =$numbers_util_now > 0 ? $numbers_util_now  : 1 * 100;
-$increment = 1  / $numbers_util_now ;
+$increment = 1  / $numbers_util_now * 100;
 
   if($User_overall){
-    $User_overall->increment('num_of_attendance',1);
+    $User_overall->increment('num_of_attendance',$time / 5400 > 1 ? 1 : $time / 5400);
 $old =  $User_overall->num_of_attendance / $numbers_util_now * 100 ;
 
         $User_overall->update([
@@ -336,11 +335,12 @@ $old =  $User_overall->num_of_attendance / $numbers_util_now * 100 ;
       
           ]);
     
-          $User_overall->increment('time_attendance',$time);
+          $User_overall->increment('time_attendance',$time > 5400 ?  5400 : $time);
+       
+          $User_overall->increment('overtime',$time > 5400 ? $time - 5400 : 0);
        
     
     
-
     
 
   
@@ -353,10 +353,10 @@ $old =  $User_overall->num_of_attendance / $numbers_util_now * 100 ;
             'percentage_attendance'=>($increment ),
             'cash_in'=>0,
             'num_of_performers'=>0,
-            'num_of_attendance'=>1,
+            'num_of_attendance'=>$time / 5400 > 1 ? 1 : $time / 5400,
             'performance_point'=>0,
-            'time_attendance'=>$time,
-         
+            'time_attendance'=>$time > 5400 ?  5400 : $time,
+            'overtime'=>$time > 5400 ? $time - 5400 : 0,
             'project_id'=>$check->project->id
         ]);
     
@@ -420,8 +420,7 @@ if(!empty($get->role) && !empty($get->role->section) ){
 
 
 $numbers_util_now = $number  * $working_days;
-$numbers_util_now =$numbers_util_now > 0 ? $numbers_util_now  : 1 * 100;
-$increment = 1  / $numbers_util_now;
+$increment = 1  / $numbers_util_now * 100;
 
 
     $monthly_section =     monthly_section::where(['section_id'=>$get->role->section_id,'date'=>Carbon::now()->startOfMonth(),])->first();
@@ -554,13 +553,12 @@ if(!empty($get->role) ){
     
 
   $timesheet_monthly_personal =     personal_overall::where(['user_id'=>$get->id,'date'=>Carbon::now()->startOfMonth(),])->first();
-  $numbers_util_now =   1  * $working_days  ;
-  $numbers_util_now =$numbers_util_now > 0 ? $numbers_util_now  : 1 * 100;
-  $increment = 1  / $numbers_util_now ;
+  $numbers_util_now = 1  * $working_days;
+$increment = 1  / $numbers_util_now * 100;
 
   if($timesheet_monthly_personal){
     $timesheet_monthly_personal->increment(
-      'num_of_attendance',1
+      'num_of_attendance',$time / 5400 > 1 ? 1 : $time / 5400
     );
 
 $old =  $timesheet_monthly_personal->num_of_attendance / $numbers_util_now * 100 ;
@@ -575,7 +573,11 @@ $timesheet_monthly_personal->update([
 
 
     $timesheet_monthly_personal->increment(
-      'time',$time
+      'time',$time > 5400 ?  5400 : $time
+    );
+
+    $timesheet_monthly_personal->increment(
+      'overtime',$time > 5400 ? $time - 5400 : 0
     );
   
   }else{
@@ -583,9 +585,10 @@ $timesheet_monthly_personal->update([
       'user_id'=>$get->id,
     'date'=>Carbon::now()->startOfMonth()
   ,
-    'time'=>$time,
+    'time'=>$time > 5400 ?  5400 : $time,
+    'overtime'=>$time > 5400 ? $time - 5400 : 0,
     'num_of_performers'=>0,
-    'num_of_attendance'=>1,
+    'num_of_attendance'=>$time / 5400 > 1 ? 1 : $time / 5400,
     'marketing_project'=>0,
     'percentage_performance'=>0,
     'percentage_attendance'=>$increment,
