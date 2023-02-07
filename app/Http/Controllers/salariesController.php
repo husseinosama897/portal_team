@@ -101,7 +101,16 @@ return response()->json(['data'=>$salary]);
         ]);
 
              
-        $report =   report::where('date',$subcontractor->month)->increment('total_cash_out',$subcontractor->Amount);
+        $report =   report::where('date',$request->month)->increment('total_cash_out',$request->Amount);
+
+
+        
+        $summaryreport=  summaryreport::first();
+        $summaryreport =  $summaryreport->salaries !== null ?  $summaryreport->incerment('salaries',$request->Amount)
+        : $summaryreport->update([
+            'salaries'=>$request->Amount
+        ]);
+
 
         if(empty($report)){
          report::create([

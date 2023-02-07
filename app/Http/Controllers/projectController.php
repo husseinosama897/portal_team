@@ -8,6 +8,7 @@ use App\Purchase_order;
 use App\petty_cash;
 use App\User;
 use App\subcontractor;
+use App\summaryreport;
 class projectController extends Controller
 {
 
@@ -145,6 +146,16 @@ $this->validate($request,[
 'final_delivery_date'=>$request->final_delivery_date,
 'customer_id'=>$request->customer_id,
 ]);
+
+$summaryreport=  summaryreport::first();
+  $summaryreport->project !== null ?  $summaryreport->incerment('project',1)
+->incerment('bid_value_open',$request->bid_value)
+: $summaryreport->update([
+    'project'=>1,
+    'bid_value_open'=>$request->bid_value,
+]);
+
+
 
 if($request->projectmanager_id){
   $user = User::find($request->projectmanager_id);

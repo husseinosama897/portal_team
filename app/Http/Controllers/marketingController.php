@@ -13,6 +13,7 @@ use App\Jobs\rolecc;
 use App\monthly_section;
 use App\personal_overall;
 use Carbon\Carbon;
+use App\summaryreport;
 class marketingController extends Controller
 {
     public function add(request $request){
@@ -34,6 +35,17 @@ class marketingController extends Controller
           'status'=>0,
           'user_id'=>auth()->user()->id,
         ]);
+
+
+        
+        $summaryreport=  summaryreport::first();
+        $summaryreport =  $summaryreport->subcontractor_invoice !== null ?  $summaryreport->incerment('marketing_bending',1)
+        : $summaryreport->update([
+            'marketing_bending'=>1
+        ]);
+
+
+
 
         $update = auth()->user()->personal_overall()->whereDate('date',Carbon::now()->startOfMonth())->first();
 

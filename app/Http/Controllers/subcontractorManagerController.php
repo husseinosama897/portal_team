@@ -152,6 +152,14 @@ class subcontractorManagerController extends Controller
             ->first();
         
 
+            $summaryreport=  summaryreport::first();
+            $summaryreport =  $summaryreport->subcontractor_invoice !== null ?  $summaryreport->incerment('subcontractor_invoice',1)
+            : $summaryreport->update([
+                'subcontractor_invoice'=>1
+            ]);
+
+  $summaryreport->decerment('subcontractor_invoice_bending',1);
+           
 
             $content   = 'Your subcontractor' .$subcontractor->ref.'has been approved by'.$perv->role->name ?? ''.' and Under Review from '.$workflow->role->name ?? 'no one';
 if(!empty($workflow->role)){
